@@ -1,6 +1,6 @@
 <p><h1>Synchronization Client and Windows Service</h1></p>
 <p>&nbsp;</p>
-<p>The project is based of <a href="https://www.microsoft.com/en-us/download/details.aspx?id=23217">Microsoft Synchronization Provider Framework</a>. The basic purpose is to synchronize a source folder at one or multiple locations.</p>
+<p>The project is based on <a href="https://www.microsoft.com/en-us/download/details.aspx?id=23217">Microsoft Synchronization Provider Framework</a>. The basic purpose is to synchronize a source folder at one or multiple locations.</p>
 
 ![Sync Manager](https://github.com/KashifMushtaq/FileSync/blob/main/sync1.jpg "Sync Manager")
 
