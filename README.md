@@ -2,7 +2,7 @@
 <p>&nbsp;</p>
 <p>The project is based of <a href="https://www.microsoft.com/en-us/download/details.aspx?id=23217">Microsoft Synchronization Provider Framework</a>. The basic purpose is to synchronize a source folder at one or multiple locations.</p>
 
-[Management Client]([https://via.placeholder.com/](https://github.com/KashifMushtaq/FileSync/sync1.jpeg)200x150 "Sync Manager")
+![Sync Manager](https://github.com/KashifMushtaq/FileSync/blob/main/sync1.jpg "Sync Manager")
 
 <p><h2>Sub projects:</h2></p>
 
@@ -38,6 +38,8 @@
 5.	Network location to single or multiple network destinations
 
 <p>Infect, It can synchronize from any location to any location provided it has access and read and write permissions.</p>
+
+![Sync Manager Details](https://github.com/KashifMushtaq/FileSync/blob/main/sync2.jpg "Sync Manager Details")
 
 <p>The SynchService, can be configured to run the synchronization at preset time or after a certain interval. Just configure and forget service. It will keep the source and destination synchronized by itself.</p>
 
