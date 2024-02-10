@@ -20,7 +20,7 @@
 
 <p>&nbsp;</p>
 <p><h2>Prebuilt Installer:</h2></p>
-<p>MSI installer can be downloaded from <b>SyncSerup\Release</b> folder. It installs the required dependencies and on uninstall, it also removes them.</p>
+<p>MSI installer can be downloaded from <b>SynchSetup\Release</b> folder. It installs the required dependencies and on uninstall, it also removes them.</p>
 
 <p>&nbsp;</p>
 <p><h2>Manual Steps After Installation:</h2></p>
