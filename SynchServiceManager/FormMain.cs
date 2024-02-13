@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.ServiceProcess;
 using System.Threading;
@@ -28,7 +24,7 @@ namespace SynchServiceNS
             InitializeComponent();
         }
 
-        private void button_Clear_Click(object sender, EventArgs e)
+        private void Button_Clear_Click(object sender, EventArgs e)
         {
             try
             {
@@ -60,7 +56,7 @@ namespace SynchServiceNS
         }
 
 
-        private void timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
             serviceController.Refresh();
 
@@ -110,7 +106,7 @@ namespace SynchServiceNS
             this.listView_SavedJobs.Columns.Add(columnHeader3);
 
 
-            loadAllJobs();
+            LoadAllJobs();
 
             if (listView_SavedJobs.Items.Count > 0) this.listView_SavedJobs.Items[0].Selected = true;
 
@@ -162,7 +158,7 @@ namespace SynchServiceNS
             }
             return bR;
         }
-        private void loadAllJobs()
+        private void LoadAllJobs()
         {
             listView_SavedJobs.Items.Clear();
 
@@ -208,7 +204,7 @@ namespace SynchServiceNS
                             clsArguments arg = new clsArguments();
                             arg.LoadData(Job, JobData);
 
-                            addJob(Job, JobData[0], (JobData[7] == "1") ? "Enabled" : "Disabled", arg);
+                            AddJob(Job, JobData[0], (JobData[7] == "1") ? "Enabled" : "Disabled", arg);
                         }
                         catch (Exception Ex)
                         {
@@ -223,15 +219,15 @@ namespace SynchServiceNS
 
             }
         }
-        private bool addJob(string JobID, string JobDescription, string Enabled, clsArguments arg)
+        private bool AddJob(string JobID, string JobDescription, string Enabled, clsArguments arg)
         {
             bool bR = false;
 
-            if (!checkDuplicate(JobID, listView_SavedJobs))
+            if (!CheckDuplicate(JobID, listView_SavedJobs))
             {
                 ListViewItem item = new ListViewItem(JobID, 0);
-                ListViewItem.ListViewSubItem sub1 = item.SubItems.Add(JobDescription);
-                ListViewItem.ListViewSubItem sub2 = item.SubItems.Add(Enabled);
+                item.SubItems.Add(JobDescription);
+                item.SubItems.Add(Enabled);
 
 
                 ListViewItem thisItem = listView_SavedJobs.Items.Add(item);
@@ -240,12 +236,7 @@ namespace SynchServiceNS
             }
             return bR;
         }
-
-
-
-
-
-        private bool checkDuplicate(String FindItem, ComboBox comboBox)
+        private bool CheckDuplicate(String FindItem, ComboBox comboBox)
         {
 
             if (comboBox.Items.Count > 0)
@@ -262,7 +253,7 @@ namespace SynchServiceNS
             }
             return false;
         }
-        private bool checkDuplicate(String FindItem, ListBox listBox)
+        private bool CheckDuplicate(String FindItem, ListBox listBox)
         {
 
             if (listBox.Items.Count > 0)
@@ -279,7 +270,7 @@ namespace SynchServiceNS
             }
             return false;
         }
-        private bool checkDuplicate(String FindItem, ListView listBox)
+        private bool CheckDuplicate(String FindItem, ListView listBox)
         {
 
             if (listBox.Items.Count > 0)
@@ -297,7 +288,7 @@ namespace SynchServiceNS
             return false;
         }
 
-        private String getItemsPiped(ListView oObj)
+        private string GetItemsPiped(ListView oObj)
         {
             if (oObj.Items.Count > 0)
             {
@@ -315,7 +306,7 @@ namespace SynchServiceNS
             return "";
         }
 
-        private String getItemsPiped(ListBox oObj)
+        private string GetItemsPiped(ListBox oObj)
         {
             if (oObj.Items.Count > 0)
             {
@@ -332,7 +323,7 @@ namespace SynchServiceNS
             }
             return "";
         }
-        private String getItemsPiped(ComboBox oObj)
+        private string GetItemsPiped(ComboBox oObj)
         {
             if (oObj.Items.Count > 0)
             {
@@ -351,15 +342,15 @@ namespace SynchServiceNS
         }
 
 
-        private void button_AddNewJob_Click(object sender, EventArgs e)
+        private void Button_AddNewJob_Click(object sender, EventArgs e)
         {
             FormJobDetails fd = new FormJobDetails();
             fd.ShowDialog();
             fd.m_JobID = string.Empty;
-            loadAllJobs();
+            LoadAllJobs();
         }
 
-        private void button_Disable_Click(object sender, EventArgs e)
+        private void Button_Disable_Click(object sender, EventArgs e)
         {
             ListView.SelectedIndexCollection indexes = listView_SavedJobs.SelectedIndices;
             foreach (int index in indexes)
@@ -386,7 +377,7 @@ namespace SynchServiceNS
             }
         }
 
-        private void button_Enable_Click(object sender, EventArgs e)
+        private void Button_Enable_Click(object sender, EventArgs e)
         {
             ListView.SelectedIndexCollection indexes = listView_SavedJobs.SelectedIndices;
             foreach (int index in indexes)
@@ -413,7 +404,7 @@ namespace SynchServiceNS
             }
         }
 
-        private void listView_SavedJobs_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListView_SavedJobs_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListView.SelectedIndexCollection indexes = listView_SavedJobs.SelectedIndices;
             foreach (int index in indexes)
@@ -435,7 +426,7 @@ namespace SynchServiceNS
             }
         }
 
-        private void button_Remove_Click(object sender, EventArgs e)
+        private void Button_Remove_Click(object sender, EventArgs e)
         {
             ListView.SelectedIndexCollection indexes = listView_SavedJobs.SelectedIndices;
             foreach (int index in indexes)
@@ -446,7 +437,7 @@ namespace SynchServiceNS
                     try
                     {
                         m_INI.IniWriteValue(JobID, null);
-                        loadAllJobs();
+                        LoadAllJobs();
                     }
                     catch (Exception ex)
                     {
@@ -456,7 +447,7 @@ namespace SynchServiceNS
             }
         }
 
-        private void button_Edit_Click(object sender, EventArgs e)
+        private void Button_Edit_Click(object sender, EventArgs e)
         {
             ListView.SelectedIndexCollection indexes = listView_SavedJobs.SelectedIndices;
             foreach (int index in indexes)
@@ -468,12 +459,12 @@ namespace SynchServiceNS
                     fd.m_JobID = JobID;
                     fd.m_arg = (clsArguments)listView_SavedJobs.Items[index].Tag;
                     fd.ShowDialog();
-                    loadAllJobs();
+                    LoadAllJobs();
                 }
             }
         }
 
-        private void button_StartService_Click(object sender, EventArgs e)
+        private void Button_StartService_Click(object sender, EventArgs e)
         {
             try
             {
@@ -491,7 +482,7 @@ namespace SynchServiceNS
 
         }
 
-        private void buttonStopService_Click(object sender, EventArgs e)
+        private void ButtonStopService_Click(object sender, EventArgs e)
         {
             try
             {
@@ -508,7 +499,7 @@ namespace SynchServiceNS
             }
         }
 
-        private void button_ManualRun_Click(object sender, EventArgs e)
+        private void Button_ManualRun_Click(object sender, EventArgs e)
         {
             this.richTextBox_Status.Text = string.Empty;
 

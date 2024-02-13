@@ -24,6 +24,16 @@ public class SynchronizationProvider
 
         try
         {
+            /*
+             * CompareFileStreams	
+             * If this value is set, the provider will compute a hash value for each file 
+             * that is based on the contents of the whole file stream and use this value 
+             * to compare files during change detection. This option is expensive and will 
+             * slow synchronization, but provides more robust change detection. 
+             * If this value is not set, an algorithm that compares modification times, 
+             * file sizes, file names, and file attributes will be used to determine whether a file has changed.
+             */
+
             // Set options for the synchronization operation
             FileSyncOptions options = FileSyncOptions.ExplicitDetectChanges | FileSyncOptions.RecycleDeletedFiles | FileSyncOptions.RecyclePreviousFileOnUpdates | FileSyncOptions.RecycleConflictLoserFiles;
 
@@ -55,14 +65,19 @@ public class SynchronizationProvider
 
             // Explicitly detect changes on both replicas upfront, to avoid two change
             // detection passes for the two-way synchronization
-
             DetectChangesOnFileSystemReplica(sourceDirectory, filter, options);
-            if (synchronizeBothWays) DetectChangesOnFileSystemReplica(destinationDirectory, filter, options);
+            if (synchronizeBothWays)
+            {
+                DetectChangesOnFileSystemReplica(destinationDirectory, filter, options);
+            }
 
-            // Synchronization in both directions
             SyncFileSystemReplicasOneWay(sourceDirectory, destinationDirectory, filter, options);
 
-            if(synchronizeBothWays) SyncFileSystemReplicasOneWay(destinationDirectory, sourceDirectory, filter, options);
+            // Synchronization in both directions
+            if (synchronizeBothWays)
+            {
+                SyncFileSystemReplicasOneWay(destinationDirectory, sourceDirectory, filter, options);
+            }
         }
         catch (Exception e)
         {
@@ -106,7 +121,7 @@ public class SynchronizationProvider
             agent.RemoteProvider = destinationProvider;
             agent.Direction = SyncDirectionOrder.Upload; // Sync source to destination
 
-            WriteLine(LOG.INFORMATION, "Synchronizing changes to replica: " + destinationProvider.RootDirectoryPath);
+            WriteLine(LOG.INFORMATION, "Synchronizing changes to replica: " + destinationProvider.RootDirectoryPath, true);
             agent.Synchronize();
         }
         finally
@@ -122,25 +137,25 @@ public class SynchronizationProvider
         switch (args.ChangeType)
         {
             case ChangeType.Create:
-                WriteLine(LOG.INFORMATION, "-- Applied CREATE for file " + args.NewFilePath);
+                WriteLine(LOG.INFORMATION, "-- Applied CREATE for file " + args.NewFilePath, true);
                 break;
             case ChangeType.Delete:
-                WriteLine(LOG.INFORMATION, "-- Applied DELETE for file " + args.OldFilePath);
+                WriteLine(LOG.INFORMATION, "-- Applied DELETE for file " + args.OldFilePath, true);
                 break;
             case ChangeType.Update:
-                WriteLine(LOG.INFORMATION, "-- Applied OVERWRITE for file " + args.OldFilePath);
+                WriteLine(LOG.INFORMATION, "-- Applied OVERWRITE for file " + args.OldFilePath, true);
                 break;
             case ChangeType.Rename:
-                WriteLine(LOG.INFORMATION, "-- Applied RENAME for file " + args.OldFilePath + " as " + args.NewFilePath);
+                WriteLine(LOG.INFORMATION, "-- Applied RENAME for file " + args.OldFilePath + " as " + args.NewFilePath, true);
                 break;
         }
     }
 
     public void OnSkippedChange(object sender, SkippedChangeEventArgs args)
     {
-        WriteLine(LOG.INFORMATION, "-- Skipped applying " + args.ChangeType.ToString().ToUpper() + " for " + (!string.IsNullOrEmpty(args.CurrentFilePath) ? args.CurrentFilePath : args.NewFilePath) + " due to error");
+        WriteLine(LOG.INFORMATION, "-- Skipped applying " + args.ChangeType.ToString().ToUpper() + " for " + (!string.IsNullOrEmpty(args.CurrentFilePath) ? args.CurrentFilePath : args.NewFilePath) + " due to error", true);
 
-        if (args.Exception != null) Console.WriteLine("   [" + args.Exception.Message + "]");
+        if (args.Exception != null) WriteLine(LOG.ERROR, "   [" + args.Exception.Message + "]");
     }
 
     private void WriteLine(LOG Level, string Message, bool bIgnoreLevel)

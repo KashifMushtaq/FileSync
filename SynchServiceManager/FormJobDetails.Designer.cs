@@ -117,7 +117,7 @@
             this.checkBox_RunAt.TabIndex = 54;
             this.checkBox_RunAt.Text = "Use preset time";
             this.checkBox_RunAt.UseVisualStyleBackColor = true;
-            this.checkBox_RunAt.CheckedChanged += new System.EventHandler(this.checkBox_RunAt_CheckedChanged);
+            this.checkBox_RunAt.CheckedChanged += new System.EventHandler(this.CheckBox_RunAt_CheckedChanged);
             // 
             // dateTimePicker_RunAt
             // 
@@ -130,7 +130,7 @@
             this.dateTimePicker_RunAt.TabIndex = 53;
             this.toolTip.SetToolTip(this.dateTimePicker_RunAt, "Select time of the day to launch synch job");
             this.dateTimePicker_RunAt.Value = new System.DateTime(2010, 10, 9, 4, 29, 0, 0);
-            this.dateTimePicker_RunAt.ValueChanged += new System.EventHandler(this.dateTimePicker_RunAt_ValueChanged);
+            this.dateTimePicker_RunAt.ValueChanged += new System.EventHandler(this.DateTimePicker_RunAt_ValueChanged);
             // 
             // checkBox_UseSynshFramework
             // 
@@ -142,7 +142,7 @@
             this.checkBox_UseSynshFramework.Text = "Use Microsoft Synch Framework";
             this.checkBox_UseSynshFramework.UseVisualStyleBackColor = true;
             this.checkBox_UseSynshFramework.Visible = false;
-            this.checkBox_UseSynshFramework.CheckedChanged += new System.EventHandler(this.checkBox_UseSynshFramework_CheckedChanged);
+            this.checkBox_UseSynshFramework.CheckedChanged += new System.EventHandler(this.CheckBox_UseSynshFramework_CheckedChanged);
             // 
             // button_Close
             // 
@@ -153,7 +153,7 @@
             this.button_Close.Text = "Close";
             this.toolTip.SetToolTip(this.button_Close, "Close this dialog");
             this.button_Close.UseVisualStyleBackColor = true;
-            this.button_Close.Click += new System.EventHandler(this.button_Close_Click);
+            this.button_Close.Click += new System.EventHandler(this.Button_Close_Click);
             // 
             // button_Cancel
             // 
@@ -164,7 +164,7 @@
             this.button_Cancel.Text = "Cancel";
             this.toolTip.SetToolTip(this.button_Cancel, "Cancel change");
             this.button_Cancel.UseVisualStyleBackColor = true;
-            this.button_Cancel.Click += new System.EventHandler(this.button_Cancel_Click);
+            this.button_Cancel.Click += new System.EventHandler(this.Button_Cancel_Click);
             // 
             // label_Minutes
             // 
@@ -197,7 +197,7 @@
             0,
             0,
             0});
-            this.numericUpDown_Interval.ValueChanged += new System.EventHandler(this.numericUpDown_Interval_ValueChanged);
+            this.numericUpDown_Interval.ValueChanged += new System.EventHandler(this.NumericUpDown_Interval_ValueChanged);
             // 
             // button_SaveJobDetails
             // 
@@ -208,7 +208,7 @@
             this.button_SaveJobDetails.Text = "Save";
             this.toolTip.SetToolTip(this.button_SaveJobDetails, "Save the change");
             this.button_SaveJobDetails.UseVisualStyleBackColor = true;
-            this.button_SaveJobDetails.Click += new System.EventHandler(this.button_SaveJobDetails_Click);
+            this.button_SaveJobDetails.Click += new System.EventHandler(this.Button_SaveJobDetails_Click);
             // 
             // label_RunJobInterval
             // 
@@ -243,8 +243,8 @@
             this.comboBox_LogLevel.Size = new System.Drawing.Size(238, 21);
             this.comboBox_LogLevel.TabIndex = 44;
             this.toolTip.SetToolTip(this.comboBox_LogLevel, "Log level for this job. Every job has its own logging level");
-            this.comboBox_LogLevel.SelectedIndexChanged += new System.EventHandler(this.comboBox_LogLevel_SelectedIndexChanged);
-            this.comboBox_LogLevel.Click += new System.EventHandler(this.comboBox_LogLevel_SelectedIndexChanged);
+            this.comboBox_LogLevel.SelectedIndexChanged += new System.EventHandler(this.ComboBox_LogLevel_SelectedIndexChanged);
+            this.comboBox_LogLevel.Click += new System.EventHandler(this.ComboBox_LogLevel_SelectedIndexChanged);
             // 
             // textBox_SubDirExcFilter
             // 
@@ -260,7 +260,7 @@
             this.textBox_SubDirExcFilter.TabIndex = 43;
             this.toolTip.SetToolTip(this.textBox_SubDirExcFilter, "Comma separated list in the form \"\\\\Sub Dir Name\" or \"Sub Dir Name\"\r\nNo wild char" +
                     "s allowed\r\nEscape character \"\\\" like \\\\");
-            this.textBox_SubDirExcFilter.TextChanged += new System.EventHandler(this.textBox_SubDirExcFilter_TextChanged);
+            this.textBox_SubDirExcFilter.TextChanged += new System.EventHandler(this.TextBox_SubDirExcFilter_TextChanged);
             // 
             // label_SubDirExcFilter
             // 
@@ -284,7 +284,7 @@
             this.textBox_FileIncFilter.Size = new System.Drawing.Size(857, 20);
             this.textBox_FileIncFilter.TabIndex = 41;
             this.toolTip.SetToolTip(this.textBox_FileIncFilter, resources.GetString("textBox_FileIncFilter.ToolTip"));
-            this.textBox_FileIncFilter.TextChanged += new System.EventHandler(this.textBox_FileIncFilter_TextChanged);
+            this.textBox_FileIncFilter.TextChanged += new System.EventHandler(this.TextBox_FileIncFilter_TextChanged);
             // 
             // label_FileIncFilter
             // 
@@ -306,7 +306,7 @@
             this.textBox_FileExFilter.Size = new System.Drawing.Size(857, 20);
             this.textBox_FileExFilter.TabIndex = 39;
             this.toolTip.SetToolTip(this.textBox_FileExFilter, resources.GetString("textBox_FileExFilter.ToolTip"));
-            this.textBox_FileExFilter.TextChanged += new System.EventHandler(this.textBox_FileExFilter_TextChanged);
+            this.textBox_FileExFilter.TextChanged += new System.EventHandler(this.TextBox_FileExFilter_TextChanged);
             // 
             // label_FileExFilter
             // 
@@ -325,7 +325,7 @@
             this.button_RemoveDest.TabIndex = 37;
             this.button_RemoveDest.Text = "--";
             this.button_RemoveDest.UseVisualStyleBackColor = true;
-            this.button_RemoveDest.Click += new System.EventHandler(this.button_RemoveDest_Click);
+            this.button_RemoveDest.Click += new System.EventHandler(this.Button_RemoveDest_Click);
             // 
             // button_AddDest
             // 
@@ -335,7 +335,7 @@
             this.button_AddDest.TabIndex = 36;
             this.button_AddDest.Text = "+";
             this.button_AddDest.UseVisualStyleBackColor = true;
-            this.button_AddDest.Click += new System.EventHandler(this.button_AddDest_Click);
+            this.button_AddDest.Click += new System.EventHandler(this.Button_AddDest_Click);
             // 
             // label_SynchType
             // 
@@ -359,8 +359,8 @@
             this.comboBox_SynchType.Size = new System.Drawing.Size(238, 21);
             this.comboBox_SynchType.TabIndex = 34;
             this.toolTip.SetToolTip(this.comboBox_SynchType, "Synchronization Type");
-            this.comboBox_SynchType.SelectedIndexChanged += new System.EventHandler(this.comboBox_SynchType_SelectedIndexChanged);
-            this.comboBox_SynchType.Click += new System.EventHandler(this.comboBox_SynchType_SelectedIndexChanged);
+            this.comboBox_SynchType.SelectedIndexChanged += new System.EventHandler(this.ComboBox_SynchType_SelectedIndexChanged);
+            this.comboBox_SynchType.Click += new System.EventHandler(this.ComboBox_SynchType_SelectedIndexChanged);
             // 
             // label_Destinations
             // 
@@ -389,7 +389,7 @@
             this.button_Source.TabIndex = 31;
             this.button_Source.Text = "Browse";
             this.button_Source.UseVisualStyleBackColor = true;
-            this.button_Source.Click += new System.EventHandler(this.button_Source_Click);
+            this.button_Source.Click += new System.EventHandler(this.Button_Source_Click);
             // 
             // textBox_Source
             // 
@@ -399,7 +399,7 @@
             this.textBox_Source.Size = new System.Drawing.Size(857, 20);
             this.textBox_Source.TabIndex = 30;
             this.toolTip.SetToolTip(this.textBox_Source, "Source Directory");
-            this.textBox_Source.TextChanged += new System.EventHandler(this.textBox_Source_TextChanged);
+            this.textBox_Source.TextChanged += new System.EventHandler(this.TextBox_Source_TextChanged);
             // 
             // label_Source
             // 
@@ -427,7 +427,7 @@
             this.textBox_JobID.Size = new System.Drawing.Size(145, 20);
             this.textBox_JobID.TabIndex = 1;
             this.toolTip.SetToolTip(this.textBox_JobID, "Unique job identity");
-            this.textBox_JobID.TextChanged += new System.EventHandler(this.textBox_JobID_TextChanged);
+            this.textBox_JobID.TextChanged += new System.EventHandler(this.TextBox_JobID_TextChanged);
             // 
             // textBox_JobDescription
             // 
@@ -437,7 +437,7 @@
             this.textBox_JobDescription.Size = new System.Drawing.Size(857, 20);
             this.textBox_JobDescription.TabIndex = 5;
             this.toolTip.SetToolTip(this.textBox_JobDescription, "Job Description");
-            this.textBox_JobDescription.TextChanged += new System.EventHandler(this.textBox_JobDescription_TextChanged);
+            this.textBox_JobDescription.TextChanged += new System.EventHandler(this.TextBox_JobDescription_TextChanged);
             // 
             // label_JobID
             // 

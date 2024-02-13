@@ -66,7 +66,7 @@ namespace SynchServiceNS
             textBox_JobID.ReadOnly = true;
         }
 
-        private void button_Source_Click(object sender, EventArgs e)
+        private void Button_Source_Click(object sender, EventArgs e)
         {
             //folderBrowserDialog.SelectedPath = this.textBox_Source.Text;
             folderBrowserDialog.ShowNewFolderButton = false;
@@ -84,21 +84,21 @@ namespace SynchServiceNS
             }
         }
 
-        private void numericUpDown_Interval_ValueChanged(object sender, EventArgs e)
+        private void NumericUpDown_Interval_ValueChanged(object sender, EventArgs e)
         {
             if (m_bIsLoading) return;
  
             m_arg.RunAfter = numericUpDown_Interval.Value.ToString();
             m_bDataChanged = true;
         }
-        private void saveJob()
+        private void SaveJob()
         {
             if (m_bDataChanged)
             {
                 if (string.IsNullOrEmpty(m_JobID))
                 {
                     string JobID = textBox_JobID.Text.Trim();
-                    if (!checkDuplicateJob(JobID) && !string.IsNullOrEmpty(JobID))
+                    if (!CheckDuplicateJob(JobID) && !string.IsNullOrEmpty(JobID))
                     {
                         m_JobID = JobID;
                         m_arg.JobName = JobID;
@@ -116,13 +116,13 @@ namespace SynchServiceNS
                 
                 if (string.IsNullOrEmpty(m_arg.JobSource))
                 {
-                    MessageBox.Show("Sourse can not be empty.");
+                    MessageBox.Show("Source can not be empty.");
                     return;
                 }
 
-                if(string.IsNullOrEmpty(getItemsPiped(listBox_Destinations)))
+                if(string.IsNullOrEmpty(GetItemsPiped(listBox_Destinations)))
                 {
-                    MessageBox.Show("There should be atleast on destination.");
+                    MessageBox.Show("There should be at-least on destination.");
                     return;
                 }
 
@@ -214,14 +214,14 @@ namespace SynchServiceNS
             }
         }
 
-        private void textBox_JobDescription_TextChanged(object sender, EventArgs e)
+        private void TextBox_JobDescription_TextChanged(object sender, EventArgs e)
         {
             if (m_bIsLoading) return;
             m_arg.JobDescription = textBox_JobDescription.Text;
             m_bDataChanged = true;
         }
 
-        private void button_AddDest_Click(object sender, EventArgs e)
+        private void Button_AddDest_Click(object sender, EventArgs e)
         {
             //folderBrowserDialog.SelectedPath = this.textBox_Source.Text;
             folderBrowserDialog.ShowNewFolderButton = false;
@@ -230,7 +230,7 @@ namespace SynchServiceNS
             if (dR == DialogResult.OK)
             {
                 string sPath = folderBrowserDialog.SelectedPath;
-                if (!checkDuplicate(sPath, this.listBox_Destinations))
+                if (!CheckDuplicate(sPath, this.listBox_Destinations))
                 {
                     string folderName = new DirectoryInfo(textBox_Source.Text).Name;
                     if (!string.IsNullOrEmpty(folderName))
@@ -243,13 +243,13 @@ namespace SynchServiceNS
 
                     this.listBox_Destinations.Items.Add(sPath);
                     m_bDataChanged = true;
-                    m_arg.JobDestinations = getItemsPiped(listBox_Destinations).Split(SPLIT_CHAR[0]);
+                    m_arg.JobDestinations = GetItemsPiped(listBox_Destinations).Split(SPLIT_CHAR[0]);
                     
                 }
             }
         }
 
-        private void button_RemoveDest_Click(object sender, EventArgs e)
+        private void Button_RemoveDest_Click(object sender, EventArgs e)
         {
             if (this.listBox_Destinations.SelectedIndex != -1)
             {
@@ -257,7 +257,7 @@ namespace SynchServiceNS
                 m_bDataChanged = true;
                 if (listBox_Destinations.Items.Count > 0)
                 {
-                    m_arg.JobDestinations = getItemsPiped(listBox_Destinations).Split(SPLIT_CHAR[0]);
+                    m_arg.JobDestinations = GetItemsPiped(listBox_Destinations).Split(SPLIT_CHAR[0]);
                 }
                 else
                 {
@@ -266,35 +266,35 @@ namespace SynchServiceNS
             }
         }
 
-        private void comboBox_SynchType_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox_SynchType_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (m_bIsLoading) return;
             m_arg.SynchType = (comboBox_SynchType.SelectedIndex + 1).ToString();
             m_bDataChanged = true;
         }
 
-        private void textBox_FileExFilter_TextChanged(object sender, EventArgs e)
+        private void TextBox_FileExFilter_TextChanged(object sender, EventArgs e)
         {
             if (m_bIsLoading) return;
             m_arg.FileFiltersEx = textBox_FileExFilter.Text.Split(SPLIT_CHAR[0]);
             m_bDataChanged = true;
         }
 
-        private void textBox_FileIncFilter_TextChanged(object sender, EventArgs e)
+        private void TextBox_FileIncFilter_TextChanged(object sender, EventArgs e)
         {
             if (m_bIsLoading) return;
             m_arg.FileFiltersIn = textBox_FileIncFilter.Text.Split(SPLIT_CHAR[0]);
             m_bDataChanged = true;
         }
 
-        private void textBox_SubDirExcFilter_TextChanged(object sender, EventArgs e)
+        private void TextBox_SubDirExcFilter_TextChanged(object sender, EventArgs e)
         {
             if (m_bIsLoading) return;
             m_bDataChanged = true;
 
             if (textBox_SubDirExcFilter.Text.IndexOf("*") != -1)
             {
-                MessageBox.Show("Can not have Wildcard i.e * in Sub Dir Filters", "Information", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageBox.Show("Can not have Wild-card i.e * in Sub Dir Filters", "Information", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
 
@@ -302,20 +302,20 @@ namespace SynchServiceNS
             
         }
 
-        private void comboBox_LogLevel_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox_LogLevel_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (m_bIsLoading) return;
             m_arg.LogLevel = (comboBox_LogLevel.SelectedIndex + 1).ToString();
             m_bDataChanged = true;
         }
 
-        private void button_SaveJobDetails_Click(object sender, EventArgs e)
+        private void Button_SaveJobDetails_Click(object sender, EventArgs e)
         {
             if (m_bDataChanged)
             {
                 try
                 {
-                    saveJob();
+                    SaveJob();
                     m_bDataChanged = false;
                     this.Close();
                 }
@@ -331,7 +331,7 @@ namespace SynchServiceNS
         }
 
 
-        private bool checkDuplicateJob(string thisJob)
+        private bool CheckDuplicateJob(string thisJob)
         {
             bool bR = false;
             try
@@ -358,7 +358,7 @@ namespace SynchServiceNS
 
 
 
-        private bool checkDuplicate(String FindItem, ComboBox comboBox)
+        private bool CheckDuplicate(string FindItem, ComboBox comboBox)
         {
 
             if (comboBox.Items.Count > 0)
@@ -375,7 +375,7 @@ namespace SynchServiceNS
             }
             return false;
         }
-        private bool checkDuplicate(String FindItem, ListBox listBox)
+        private bool CheckDuplicate(string FindItem, ListBox listBox)
         {
 
             if (listBox.Items.Count > 0)
@@ -392,7 +392,7 @@ namespace SynchServiceNS
             }
             return false;
         }
-        private bool checkDuplicate(String FindItem, ListView listBox)
+        private bool CheckDuplicate(string FindItem, ListView listBox)
         {
 
             if (listBox == null) return false;
@@ -412,15 +412,15 @@ namespace SynchServiceNS
             return false;
         }
 
-        private String getItemsPiped(ListView oObj)
+        private string GetItemsPiped(ListView oObj)
         {
             if (oObj.Items.Count > 0)
             {
-                String sPiped = "";
+                string sPiped = "";
                 for (int iC = 0; iC < oObj.Items.Count; iC++)
                 {
                     if (sPiped != "") sPiped += SPLIT_CHAR;
-                    sPiped += (String)oObj.Items[iC].SubItems[0].Text;
+                    sPiped += (string)oObj.Items[iC].SubItems[0].Text;
                 }
                 if (sPiped != "")
                 {
@@ -430,15 +430,15 @@ namespace SynchServiceNS
             return "";
         }
 
-        private String getItemsPiped(ListBox oObj)
+        private string GetItemsPiped(ListBox oObj)
         {
             if (oObj.Items.Count > 0)
             {
-                String sPiped = "";
+                string sPiped = "";
                 for (int iC = 0; iC < oObj.Items.Count; iC++)
                 {
                     if (sPiped != "") sPiped += SPLIT_CHAR;
-                    sPiped += (String)oObj.Items[iC];
+                    sPiped += (string)oObj.Items[iC];
                 }
                 if (sPiped != "")
                 {
@@ -447,15 +447,15 @@ namespace SynchServiceNS
             }
             return "";
         }
-        private String getItemsPiped(ComboBox oObj)
+        private string GetItemsPiped(ComboBox oObj)
         {
             if (oObj.Items.Count > 0)
             {
-                String sPiped = "";
+                string sPiped = "";
                 for (int iC = 0; iC < oObj.Items.Count; iC++)
                 {
                     if (sPiped != "") sPiped += SPLIT_CHAR;
-                    sPiped += (String)oObj.Items[iC];
+                    sPiped += (string)oObj.Items[iC];
                 }
                 if (sPiped != "")
                 {
@@ -465,18 +465,18 @@ namespace SynchServiceNS
             return "";
         }
 
-        private void textBox_JobID_TextChanged(object sender, EventArgs e)
+        private void TextBox_JobID_TextChanged(object sender, EventArgs e)
         {
             if (m_bIsLoading) return;
             m_bDataChanged = true;
         }
 
-        private void button_Cancel_Click(object sender, EventArgs e)
+        private void Button_Cancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void button_Close_Click(object sender, EventArgs e)
+        private void Button_Close_Click(object sender, EventArgs e)
         {
             if (m_bDataChanged)
             {
@@ -506,7 +506,7 @@ namespace SynchServiceNS
             }
         }
 
-        private void textBox_Source_TextChanged(object sender, EventArgs e)
+        private void TextBox_Source_TextChanged(object sender, EventArgs e)
         {
             if (m_bIsLoading) return;
             if (Directory.Exists(textBox_Source.Text))
@@ -517,21 +517,21 @@ namespace SynchServiceNS
             }                
         }
 
-        private void checkBox_UseSynshFramework_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox_UseSynshFramework_CheckedChanged(object sender, EventArgs e)
         {
             if (m_bIsLoading) return;
             m_arg.UseSynchFramework = (checkBox_UseSynshFramework.Checked)?"1":"0";
             m_bDataChanged = true;
         }
 
-        private void checkBox_RunAt_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox_RunAt_CheckedChanged(object sender, EventArgs e)
         {
             if (m_bIsLoading) return;
             m_arg.UseRunAt = (checkBox_RunAt.Checked) ? "1" : "0";
             m_bDataChanged = true;
         }
 
-        private void dateTimePicker_RunAt_ValueChanged(object sender, EventArgs e)
+        private void DateTimePicker_RunAt_ValueChanged(object sender, EventArgs e)
         {
             if (m_bIsLoading) return;
             m_arg.RunAt = dateTimePicker_RunAt.Text;

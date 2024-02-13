@@ -104,7 +104,7 @@ namespace SynchServiceNS
                     {
                         if (!Directory.Exists(jobSource))
                         {
-                            WriteLine(LOG.INFORMATION, string.Format("Source [{0}] could not be found. Can not continue.", jobSource), true);
+                            WriteLine(LOG.WARNING, string.Format("Source [{0}] could not be found. Can not continue.", jobSource), true);
                             continue;
                         }
                         if (!Directory.Exists(destination))
@@ -115,6 +115,8 @@ namespace SynchServiceNS
                         m_SynchronizationProvider.StartSynchronization(arg.JobSource, destination, m_arg.FileFiltersEx, m_arg.FileFiltersIn, m_arg.DirFiltersEx, false);
 
                         WriteLine(LOG.INFORMATION, string.Format("Source [{0}] --> Destination [{1}] Initiated", jobSource, destination), true);
+
+                        DeleteEmptyDirectories(destination);
                     }
                 }
                 else if (int.Parse(arg.SynchType) == (int)SynchType.BothWaysSynch) // both ways
@@ -123,7 +125,7 @@ namespace SynchServiceNS
                     {
                         if (!Directory.Exists(jobSource))
                         {
-                            WriteLine(LOG.INFORMATION, string.Format("Source [{0}] could not be found. Can not continue.", jobSource), true);
+                            WriteLine(LOG.WARNING, string.Format("Source [{0}] could not be found. Can not continue.", jobSource), true);
                             continue;
                         }
 
@@ -135,6 +137,8 @@ namespace SynchServiceNS
                         m_SynchronizationProvider.StartSynchronization(arg.JobSource, destination, m_arg.FileFiltersEx, m_arg.FileFiltersIn, m_arg.DirFiltersEx, true);
 
                         WriteLine(LOG.INFORMATION, string.Format("Both Way [{0}] <--> [{1}] Sync Initiated", jobSource, destination), true);
+
+                        DeleteEmptyDirectories(destination);
                     }
                 }
                 else if (int.Parse(arg.SynchType) == (int)SynchType.DestinationsToSourceSynch) // Destinations to source
@@ -143,7 +147,7 @@ namespace SynchServiceNS
                     {
                         if (!Directory.Exists(destination))
                         {
-                            WriteLine(LOG.INFORMATION, string.Format("Destination [{0}] could not be found. Can not continue.", destination), true);
+                            WriteLine(LOG.WARNING, string.Format("Destination [{0}] could not be found. Can not continue.", destination), true);
                             continue;
                         }
                         if (!Directory.Exists(arg.JobSource))
@@ -153,6 +157,8 @@ namespace SynchServiceNS
 
                         m_SynchronizationProvider.StartSynchronization(destination, arg.JobSource, m_arg.FileFiltersEx, m_arg.FileFiltersIn, m_arg.DirFiltersEx, false);
                         WriteLine(LOG.INFORMATION, string.Format("Destination [{0}] --> Source [{1}] Initiated", destination, jobSource), true);
+
+                        DeleteEmptyDirectories(destination);
                     }
                 }
             }
@@ -175,6 +181,7 @@ namespace SynchServiceNS
                     Directory.GetDirectories(directory).Length == 0)
                 {
                     Directory.Delete(directory, false);
+                    WriteLine(LOG.WARNING, string.Format("DeleteEmptyDirectories -> [{0}] deleted", directory));
                 }
             }
         }

@@ -121,7 +121,7 @@
             this.buttonStopService.TabIndex = 5;
             this.buttonStopService.Text = "Stop Service";
             this.buttonStopService.UseVisualStyleBackColor = true;
-            this.buttonStopService.Click += new System.EventHandler(this.buttonStopService_Click);
+            this.buttonStopService.Click += new System.EventHandler(this.ButtonStopService_Click);
             // 
             // button_StartService
             // 
@@ -132,7 +132,7 @@
             this.button_StartService.TabIndex = 4;
             this.button_StartService.Text = "Start Service";
             this.button_StartService.UseVisualStyleBackColor = true;
-            this.button_StartService.Click += new System.EventHandler(this.button_StartService_Click);
+            this.button_StartService.Click += new System.EventHandler(this.Button_StartService_Click);
             // 
             // label_Refresh
             // 
@@ -152,7 +152,7 @@
             this.button_Clear.TabIndex = 2;
             this.button_Clear.Text = "Clear";
             this.button_Clear.UseVisualStyleBackColor = true;
-            this.button_Clear.Click += new System.EventHandler(this.button_Clear_Click);
+            this.button_Clear.Click += new System.EventHandler(this.Button_Clear_Click);
             // 
             // richTextBox_Log
             // 
@@ -210,7 +210,7 @@
             this.button_ManualRun.TabIndex = 12;
             this.button_ManualRun.Text = "Manual Run";
             this.button_ManualRun.UseVisualStyleBackColor = true;
-            this.button_ManualRun.Click += new System.EventHandler(this.button_ManualRun_Click);
+            this.button_ManualRun.Click += new System.EventHandler(this.Button_ManualRun_Click);
             // 
             // button_Edit
             // 
@@ -222,7 +222,7 @@
             this.button_Edit.Text = "Edit";
             this.toolTip.SetToolTip(this.button_Edit, "Edit Selected Job");
             this.button_Edit.UseVisualStyleBackColor = true;
-            this.button_Edit.Click += new System.EventHandler(this.button_Edit_Click);
+            this.button_Edit.Click += new System.EventHandler(this.Button_Edit_Click);
             // 
             // button_AddNew
             // 
@@ -234,7 +234,7 @@
             this.button_AddNew.Text = "Add";
             this.toolTip.SetToolTip(this.button_AddNew, "Add New Job");
             this.button_AddNew.UseVisualStyleBackColor = true;
-            this.button_AddNew.Click += new System.EventHandler(this.button_AddNewJob_Click);
+            this.button_AddNew.Click += new System.EventHandler(this.Button_AddNewJob_Click);
             // 
             // button_Enable
             // 
@@ -246,7 +246,7 @@
             this.button_Enable.Text = "Enable";
             this.toolTip.SetToolTip(this.button_Enable, "Enable Selected Job");
             this.button_Enable.UseVisualStyleBackColor = true;
-            this.button_Enable.Click += new System.EventHandler(this.button_Enable_Click);
+            this.button_Enable.Click += new System.EventHandler(this.Button_Enable_Click);
             // 
             // button_Disable
             // 
@@ -258,7 +258,7 @@
             this.button_Disable.Text = "Disable";
             this.toolTip.SetToolTip(this.button_Disable, "Disable Selected Job");
             this.button_Disable.UseVisualStyleBackColor = true;
-            this.button_Disable.Click += new System.EventHandler(this.button_Disable_Click);
+            this.button_Disable.Click += new System.EventHandler(this.Button_Disable_Click);
             // 
             // button_Remove
             // 
@@ -270,7 +270,7 @@
             this.button_Remove.Text = "Remove";
             this.toolTip.SetToolTip(this.button_Remove, "Remove Selected Job");
             this.button_Remove.UseVisualStyleBackColor = true;
-            this.button_Remove.Click += new System.EventHandler(this.button_Remove_Click);
+            this.button_Remove.Click += new System.EventHandler(this.Button_Remove_Click);
             // 
             // listView_SavedJobs
             // 
@@ -290,13 +290,13 @@
             this.listView_SavedJobs.TabIndex = 1;
             this.listView_SavedJobs.UseCompatibleStateImageBehavior = false;
             this.listView_SavedJobs.View = System.Windows.Forms.View.Details;
-            this.listView_SavedJobs.SelectedIndexChanged += new System.EventHandler(this.listView_SavedJobs_SelectedIndexChanged);
-            this.listView_SavedJobs.DoubleClick += new System.EventHandler(this.button_Edit_Click);
+            this.listView_SavedJobs.SelectedIndexChanged += new System.EventHandler(this.ListView_SavedJobs_SelectedIndexChanged);
+            this.listView_SavedJobs.DoubleClick += new System.EventHandler(this.Button_Edit_Click);
             // 
             // timer
             // 
             this.timer.Interval = 5000;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            this.timer.Tick += new System.EventHandler(this.Timer_Tick);
             // 
             // FormMain
             // 
