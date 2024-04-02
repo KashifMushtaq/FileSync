@@ -22,6 +22,10 @@ public class SynchronizationProvider
     public void StartSynchronization(string sourceDirectory, string destinationDirectory, string[] excludeFilterExtensions, string[] includeFilterExtensions, string[] excludeSubDirectories, bool synchronizeBothWays=false)
     {
 
+        FileSyncProvider sourceProvider = null;
+        FileSyncProvider destinationProvider = null;
+        SyncOrchestrator orchestrator = null;
+
         try
         {
             /*
@@ -63,74 +67,62 @@ public class SynchronizationProvider
                 }
             }
 
-            // Explicitly detect changes on both replicas upfront, to avoid two change
-            // detection passes for the two-way synchronization
-            DetectChangesOnFileSystemReplica(sourceDirectory, filter, options);
-            if (synchronizeBothWays)
-            {
-                DetectChangesOnFileSystemReplica(destinationDirectory, filter, options);
-            }
 
-            SyncFileSystemReplicasOneWay(sourceDirectory, destinationDirectory, filter, options);
+            sourceProvider = new FileSyncProvider(sourceDirectory, filter, options);
+            destinationProvider = new FileSyncProvider(destinationDirectory, filter, options);
 
-            // Synchronization in both directions
-            if (synchronizeBothWays)
-            {
-                SyncFileSystemReplicasOneWay(destinationDirectory, sourceDirectory, filter, options);
-            }
-        }
-        catch (Exception e)
-        {
-            WriteLine(LOG.ERROR, "\nException from File Synchronization Provider:\n" + e.ToString());
-        }
-    }
 
-   
-    public void DetectChangesOnFileSystemReplica(string replicaRootPath, FileSyncScopeFilter filter, FileSyncOptions options)
-    {
-        FileSyncProvider provider = null;
+            sourceProvider.AppliedChange += new EventHandler<AppliedChangeEventArgs>(OnAppliedChange);
+            sourceProvider.SkippedChange += new EventHandler<SkippedChangeEventArgs>(OnSkippedChange);
 
-        try
-        {
-            provider = new FileSyncProvider(replicaRootPath, filter, options);
-            provider.DetectChanges();
-        }
-        finally
-        {
-            // Release resources
-            if (provider != null)
-                provider.Dispose();
-        }
-    }
-
-    public void SyncFileSystemReplicasOneWay(string sourceReplicaRootPath, string destinationReplicaRootPath, FileSyncScopeFilter filter, FileSyncOptions options)
-    {
-        FileSyncProvider sourceProvider = null;
-        FileSyncProvider destinationProvider = null;
-
-        try
-        {
-            sourceProvider = new FileSyncProvider(sourceReplicaRootPath, filter, options);
-            destinationProvider = new FileSyncProvider(destinationReplicaRootPath, filter, options);
+            sourceProvider.DetectingChanges += new EventHandler<DetectingChangesEventArgs>(OnDetectingChanges);
+            sourceProvider.DetectedChanges += new EventHandler<DetectedChangesEventArgs>(OnDetectedChanges);
 
             destinationProvider.AppliedChange += new EventHandler<AppliedChangeEventArgs>(OnAppliedChange);
             destinationProvider.SkippedChange += new EventHandler<SkippedChangeEventArgs>(OnSkippedChange);
 
-            SyncOrchestrator agent = new SyncOrchestrator();
-            agent.LocalProvider = sourceProvider;
-            agent.RemoteProvider = destinationProvider;
-            agent.Direction = SyncDirectionOrder.Upload; // Sync source to destination
+            destinationProvider.DetectingChanges += new EventHandler<DetectingChangesEventArgs>(OnDetectingChanges);
+            destinationProvider.DetectedChanges += new EventHandler<DetectedChangesEventArgs>(OnDetectedChanges);
 
-            WriteLine(LOG.INFORMATION, "Synchronizing changes to replica: " + destinationProvider.RootDirectoryPath, true);
-            agent.Synchronize();
+
+            orchestrator = new SyncOrchestrator();
+            orchestrator.LocalProvider = sourceProvider;
+            orchestrator.RemoteProvider = destinationProvider;
+
+
+            if (synchronizeBothWays)
+            {
+                orchestrator.Direction = SyncDirectionOrder.DownloadAndUpload;
+            }
+            else
+            {
+                orchestrator.Direction = SyncDirectionOrder.Upload;
+            }
+
+            orchestrator.SessionProgress += new EventHandler<SyncStagedProgressEventArgs>(OnSessionProgress);
+            orchestrator.StateChanged += new EventHandler<SyncOrchestratorStateChangedEventArgs>(OnStateChanged);
+
+            sourceProvider.DetectChanges();
+            destinationProvider.DetectChanges();
+
+            orchestrator.Synchronize();
+
+        }
+        catch (Exception e)
+        {
+            WriteLine(LOG.WARNING, "\nException from File Synchronization Provider:\n" + e.Message);
         }
         finally
         {
             // Release resources
-            if (sourceProvider != null) sourceProvider.Dispose();
-            if (destinationProvider != null) destinationProvider.Dispose();
+            if (sourceProvider != null)
+                sourceProvider.Dispose();
+
+            if (destinationProvider != null)
+                destinationProvider.Dispose();
         }
     }
+
 
     public void OnAppliedChange(object sender, AppliedChangeEventArgs args)
     {
@@ -153,9 +145,42 @@ public class SynchronizationProvider
 
     public void OnSkippedChange(object sender, SkippedChangeEventArgs args)
     {
-        WriteLine(LOG.INFORMATION, "-- Skipped applying " + args.ChangeType.ToString().ToUpper() + " for " + (!string.IsNullOrEmpty(args.CurrentFilePath) ? args.CurrentFilePath : args.NewFilePath) + " due to error", true);
 
-        if (args.Exception != null) WriteLine(LOG.ERROR, "   [" + args.Exception.Message + "]");
+        WriteLine(LOG.INFORMATION, string.Format("OnSkippedChange --> ChangeType [{0}]", args.ChangeType), true);
+        WriteLine(LOG.INFORMATION, string.Format("OnSkippedChange --> CurrentFilePath [{0}]", args.CurrentFilePath), true);
+        WriteLine(LOG.INFORMATION, string.Format("OnSkippedChange --> NewFilePath [{0}]", args.NewFilePath), true);
+        WriteLine(LOG.INFORMATION, string.Format("OnSkippedChange --> SkipReason [{0}]", args.SkipReason), true);
+
+        WriteLine(LOG.INFORMATION, "-- Skipped applying " + args.ChangeType.ToString().ToUpper() + " for " + (!string.IsNullOrEmpty(args.CurrentFilePath) ? args.CurrentFilePath : args.NewFilePath) + " due to ", true);
+
+        if (args.Exception != null) WriteLine(LOG.INFORMATION, "   [" + args.Exception.Message + "]");
+    }
+
+
+    public void OnDetectingChanges(object sender, DetectingChangesEventArgs args)
+    {
+        WriteLine(LOG.INFORMATION, string.Format("OnDetectingChanges --> DirectoryPath [{0}]", args.DirectoryPath), true);
+    }
+
+    public void OnDetectedChanges(object sender, DetectedChangesEventArgs args)
+    {
+        WriteLine(LOG.INFORMATION, string.Format("OnDetectingChanges --> TotalDirectoriesFound [{0}]", args.TotalDirectoriesFound), true);
+        WriteLine(LOG.INFORMATION, string.Format("OnDetectingChanges --> TotalFilesFound [{0}]", args.TotalFilesFound), true);
+        WriteLine(LOG.INFORMATION, string.Format("OnDetectingChanges --> TotalFileSize [{0}]", args.TotalFileSize), true);
+    }
+
+
+    public void OnSessionProgress(object sender, SyncStagedProgressEventArgs args)
+    {
+        WriteLine(LOG.INFORMATION, string.Format("OnSessionProgress --> ReportingProvider [{0}]", args.ReportingProvider), true);
+        WriteLine(LOG.INFORMATION, string.Format("OnSessionProgress --> Stage [{0}]", args.Stage), true);
+        WriteLine(LOG.INFORMATION, string.Format("OnSessionProgress --> CompletedWork [{0}]", args.CompletedWork), true);
+    }
+
+    public void OnStateChanged(object sender, SyncOrchestratorStateChangedEventArgs args)
+    {
+        WriteLine(LOG.INFORMATION, string.Format("OnSessionProgress --> OldState [{0}]", args.OldState), true);
+        WriteLine(LOG.INFORMATION, string.Format("OnSessionProgress --> NewState [{0}]", args.NewState), true);
     }
 
     private void WriteLine(LOG Level, string Message, bool bIgnoreLevel)

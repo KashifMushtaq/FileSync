@@ -68,9 +68,9 @@ namespace SynchServiceNS
             return AppDomain.CurrentDomain.BaseDirectory + "Log\\" + "SynchService" + "-" + DateTime.Now.ToString("yyyy-MM-dd", null) + ".log";
         }
         /* 
-         * Returns last 50 lines from current log file
+         * Returns last 1000 lines from current log file
          */
-        public string getLogText()
+        public string getLogText(bool reverse=false)
         {
             m_LogFile = getCurrentLogFileName();
 
@@ -87,14 +87,14 @@ namespace SynchServiceNS
                     string sLog = File.ReadAllText(m_LogFile, Encoding.ASCII);
                     string SPLIT = "\n";
                     string[] lines = sLog.Split(SPLIT[0]);
-                    Array.Reverse(lines);
+                    if(reverse) Array.Reverse(lines);
 
-                    if (lines.Length > 50)
+                    if (lines.Length > 1000)
                     {
                         for (int i = 0; i < lines.Length; i++)
                         {
                             sR += lines[i] + "\n";
-                            if (i >= 50)
+                            if (i >= 1000)
                             {
                                 break;
                             }
