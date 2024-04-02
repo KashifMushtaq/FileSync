@@ -105,7 +105,18 @@ public class SynchronizationProvider
             sourceProvider.DetectChanges();
             destinationProvider.DetectChanges();
 
-            orchestrator.Synchronize();
+            SyncOperationStatistics stats = orchestrator.Synchronize();
+
+            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.SyncStartTime), true);
+            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.SyncEndTime), true);
+           
+            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.UploadChangesTotal), true);
+            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.UploadChangesFailed), true);
+            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.UploadChangesApplied), true);
+            
+            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.DownloadChangesTotal), true);
+            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.DownloadChangesFailed), true);
+            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.DownloadChangesApplied), true);
 
         }
         catch (Exception e)
