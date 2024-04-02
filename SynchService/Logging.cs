@@ -70,7 +70,7 @@ namespace SynchServiceNS
         /* 
          * Returns last 1000 lines from current log file
          */
-        public string getLogText(bool reverse=false)
+        public string getLogText(bool reverse=true)
         {
             m_LogFile = getCurrentLogFileName();
 
@@ -89,12 +89,12 @@ namespace SynchServiceNS
                     string[] lines = sLog.Split(SPLIT[0]);
                     if(reverse) Array.Reverse(lines);
 
-                    if (lines.Length > 1000)
+                    if (lines.Length > 100)
                     {
                         for (int i = 0; i < lines.Length; i++)
                         {
                             sR += lines[i] + "\n";
-                            if (i >= 1000)
+                            if (i >= 100)
                             {
                                 break;
                             }
