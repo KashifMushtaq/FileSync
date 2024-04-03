@@ -108,15 +108,15 @@ public class SynchronizationProvider
             SyncOperationStatistics stats = orchestrator.Synchronize();
 
             WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.SyncStartTime), true);
-            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.SyncEndTime), true);
+            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncEndTime [{0}]", stats.SyncEndTime), true);
            
-            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.UploadChangesTotal), true);
-            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.UploadChangesFailed), true);
-            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.UploadChangesApplied), true);
+            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  UploadChangesTotal [{0}]", stats.UploadChangesTotal), true);
+            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  UploadChangesFailed [{0}]", stats.UploadChangesFailed), true);
+            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  UploadChangesApplied [{0}]", stats.UploadChangesApplied), true);
             
-            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.DownloadChangesTotal), true);
-            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.DownloadChangesFailed), true);
-            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.DownloadChangesApplied), true);
+            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  DownloadChangesTotal [{0}]", stats.DownloadChangesTotal), true);
+            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  DownloadChangesFailed [{0}]", stats.DownloadChangesFailed), true);
+            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  DownloadChangesApplied [{0}]", stats.DownloadChangesApplied), true);
 
         }
         catch (Exception e)
