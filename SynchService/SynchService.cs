@@ -106,7 +106,7 @@ namespace SynchServiceNS
 
                         if (arg.JobStatus == "1")
                         {
-                            WriteLine(LOG.INFORMATION, string.Format("Job [{0}] is Active", Job));
+                            WriteLine(LOG.DEBUG, string.Format("Job [{0}] is Active", Job));
                             if (arg.UseRunAt == "1")
                             {
                                 TimeSpan lastRun = TimeSpan.FromTicks(long.Parse(arg.JobLastRun));
@@ -124,8 +124,8 @@ namespace SynchServiceNS
 
                                 if ((timeSpanNow.TotalMinutes - lastRun.TotalMinutes) > intervalMinutes && DateTime.Now.Hour == hr && DateTime.Now.Minute==min)
                                 {
-                                    WriteLine(LOG.INFORMATION, string.Format("Job[{0}] run is due now", Job), true);
-                                    WriteLine(LOG.INFORMATION, string.Format("Thread Created for Job[{0}], Arguments [{1}]", Job, arg.getValueStringForINI()), true);
+                                    WriteLine(LOG.INFORMATION, string.Format("Job[{0}] run is due now", Job));
+                                    WriteLine(LOG.INFORMATION, string.Format("Thread Created for Job[{0}], Arguments [{1}]", Job, arg.getValueStringForINI()));
                                     
                                     clsCopy.RunJob(arg);
 
@@ -158,7 +158,7 @@ namespace SynchServiceNS
                                 if ((timeSpanNow.TotalMinutes - lastRun.TotalMinutes) > intervalMinutes)
                                 {
                                     WriteLine(LOG.INFORMATION, string.Format("Job[{0}] run is due now", Job), true);
-                                    WriteLine(LOG.INFORMATION, string.Format("Thread Created for Job[{0}], Arguments [{1}]", Job, arg.getValueStringForINI()), true);
+                                    WriteLine(LOG.INFORMATION, string.Format("Thread Created for Job[{0}], Arguments [{1}]", Job, arg.getValueStringForINI()));
 
                                     clsCopy.RunJob(arg);
 

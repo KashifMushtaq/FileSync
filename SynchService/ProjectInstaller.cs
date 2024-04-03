@@ -11,6 +11,9 @@ namespace SynchServiceNS
     [RunInstaller(true)]
     public partial class ProjectInstaller : Installer
     {
+
+        public static Thread m_Thread;
+
         public ProjectInstaller()
         {
             InitializeComponent();
@@ -39,14 +42,13 @@ namespace SynchServiceNS
 
         public void AfterUninstallEventHandler(object sender, InstallEventArgs e)
         {
-            Thread thread = new Thread(UninstallFramework);
-            thread.Start();
+            m_Thread = new Thread(new ParameterizedThreadStart(UninstallFramework));
+            m_Thread.Start(string.Empty);
+            Thread.Sleep(1000);
         }
-
-        private void UninstallFramework()
+        
+        public void UninstallFramework(object dummy)
         {
-            Thread.Sleep(5000);
-
             string dir = AssemblyDirectory + @"\packages";
             string batchFileName = dir + @"\uninstall.bat";
 
