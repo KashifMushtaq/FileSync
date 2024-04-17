@@ -102,14 +102,26 @@ public class SynchronizationProvider
             orchestrator.SessionProgress += new EventHandler<SyncStagedProgressEventArgs>(OnSessionProgress);
             orchestrator.StateChanged += new EventHandler<SyncOrchestratorStateChangedEventArgs>(OnStateChanged);
 
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+
             sourceProvider.DetectChanges();
             destinationProvider.DetectChanges();
 
             SyncOperationStatistics stats = orchestrator.Synchronize();
 
+            // the code that you want to measure comes here
+            watch.Stop();
+
+
             WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncStartTime [{0}]", stats.SyncStartTime), true);
-            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  SyncEndTime [{0}]", stats.SyncEndTime), true);
-           
+
+            // Get the elapsed time as a TimeSpan value.
+            TimeSpan ts = watch.Elapsed;
+            // Format and display the TimeSpan value.
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+
+            WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  Elapsed Time [{0}]", elapsedTime), true);
+
             WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  UploadChangesTotal [{0}]", stats.UploadChangesTotal), true);
             WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  UploadChangesFailed [{0}]", stats.UploadChangesFailed), true);
             WriteLine(LOG.INFORMATION, string.Format("SyncOperationStatistics -->  UploadChangesApplied [{0}]", stats.UploadChangesApplied), true);
